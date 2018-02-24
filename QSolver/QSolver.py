@@ -8,8 +8,8 @@ import InstrumentDriver
 import numpy as np
 from QSolver_ForDriver import *
 
-# import logging
-# log = logging.getLogger('LabberDriver')
+import logging
+log = logging.getLogger('LabberDriver')
 
 class Driver(InstrumentDriver.InstrumentWorker):
 	""" This class implements eigensolver of a multi-qubit system"""
@@ -90,23 +90,24 @@ class Driver(InstrumentDriver.InstrumentWorker):
 		nShow = int(self.getValue('Max Number of Display'))
 		if self.multiqubit.nQubit == 1:
 			self.multiqubit.generateLabel_1Q()
-			self.multiqubit.list_label_select = ['0','1','2','3'][:nShow]
+			self.multiqubit.list_label_select = ['0','1','2','3']
 			self.multiqubit.generateHamiltonian_1Q_cap()
 		if self.multiqubit.nQubit == 2:
 			self.multiqubit.generateLabel_2Q()
-			self.multiqubit.list_label_select = ['00','10','01','11','20','02'][:nShow]
+			self.multiqubit.list_label_select = ['00','10','01','11','20','02']
 			self.multiqubit.generateHamiltonian_2Q_cap()
 		elif self.multiqubit.nQubit == 3:
 			self.multiqubit.generateLabel_3Q()
-			self.multiqubit.list_label_select = ['000','100','010','001','110','101','011','200','020','002'][:nShow]
+			self.multiqubit.list_label_select = ['000','100','010','001','110','101','011','200','020','002']
 			self.multiqubit.generateHamiltonian_3Q_cap()
 		# log.info(str(self.multiqubit.dC1))
 		#
 		# find eigensolution of system Hamiltonian
+		log.info(len(self.multiqubit.list_label_select))
 		self.multiqubit.vals_unlabel, self.multiqubit.vecs_unlabel = eigensolve(self.multiqubit.H_sys)
 		self.multiqubit.vals_label, self.multiqubit.vecs_label = level_identify(self.multiqubit.vals_unlabel, self.multiqubit.vecs_unlabel, self.multiqubit.list_label_table, self.multiqubit.list_label_select)
-		self.vals_unlabel_show = self.multiqubit.vals_unlabel
-		self.vals_label_show = self.multiqubit.vals_label
+		self.vals_unlabel_show = self.multiqubit.vals_unlabel[:nShow]
+		self.vals_label_show = self.multiqubit.vals_label[:nShow]
 
 
 if __name__ == '__main__':
