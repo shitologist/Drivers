@@ -119,7 +119,7 @@ class simulation_3Q():
 	def __init__(self, CONFIG):
 		# init with some default settings
 		self.nQubit = int(CONFIG.get('Number of Qubits')),
-		self.nTrunc = int(CONFIG.get('Degree of Trunction'))
+		self.nTrunc = int(CONFIG.get('Degree of Truncation'))
 		self.dTimeStart = CONFIG.get('Time Start')
 		self.dTimeEnd = CONFIG.get('Time End')
 		self.dSampleFreq = CONFIG.get('Sampling Frequency')
